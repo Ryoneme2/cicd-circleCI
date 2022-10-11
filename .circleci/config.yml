@@ -22,7 +22,7 @@ jobs:
     steps:
       - checkout
       - run : sudo apt install npm
-      - run : npm run build
+      - run : npm install && npm run build
       - run: |
           echo $DIRECTORY
           echo $BRANCH
