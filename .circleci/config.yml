@@ -19,7 +19,7 @@ jobs:
     environment:
       BRANCH: gh-pages
       DIRECTORY: _site
-    executor: default
+    executor: github-pages-orb/default
     parameters:
       fingerprint:
         default: ''
