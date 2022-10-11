@@ -9,6 +9,7 @@ jobs:
       tag : '16.17'
     steps:
       - checkout
+      - node/install-packages
       - run : 'npm run test'
 
 workflows:
