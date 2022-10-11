@@ -12,8 +12,50 @@ jobs:
       - checkout
       - node/install-packages
       - run : 'npm run test'
+  gh-page : 
+    description: >
+      This job takes the built and tested source code from the test job and pushes
+      it back up to the gh-pages branch for live deployment
+    environment:
+      BRANCH: gh-pages
+      DIRECTORY: _site
+    executor: default
+    parameters:
+      fingerprint:
+        default: ''
+        description: ssh key fingerprint from CircleCI to push site back to repo
+        type: string
+    steps:
+      - checkout
+      - add_ssh_keys:
+          fingerprints:
+            - << parameters.fingerprint >>
+      - run: |
+          echo $DIRECTORY
+          echo $BRANCH
+      - run: >-
+          git fetch origin $BRANCH || git checkout --orphan gh-pages && git reset
+          --hard && git config --global user.name "github-pages-orb" &&  git config
+          --global user.email "github-pages-orb@example.com" && git commit
+          --allow-empty -m "Init" && git checkout master
+      - run: rm -rf $DIRECTORY
+      - run: ls -alR
+      - run: git worktree add $DIRECTORY $BRANCH
+      - attach_workspace:
+          at: ~/project
+      - run: ls -alR
+      - run: git status
+      - run: |
+          git config --global user.email "githubpagesorb@example.com"
+          git config --global user.name "GitHubPagesOrb"
+      - run: |
+          cd $DIRECTORY
+          git add -A
+          git commit -m "[skip ci] Deploy-updates"
+          git push origin gh-pages -f
+
 workflows:
   test-my-app:
     jobs:
       - install-n-test
-      - github-pages-orb
+      - gh-page
