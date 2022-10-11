@@ -37,7 +37,7 @@ jobs:
           git fetch origin $BRANCH || git checkout --orphan gh-pages && git reset
           --hard && git config --global user.name "github-pages-orb" &&  git config
           --global user.email "github-pages-orb@example.com" && git commit
-          --allow-empty -m "Init" && git checkout master
+          --allow-empty -m "Init" && git checkout main
       - run: rm -rf $DIRECTORY
       - run: ls -alR
       - run: git worktree add $DIRECTORY $BRANCH
