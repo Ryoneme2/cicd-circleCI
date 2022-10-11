@@ -48,7 +48,6 @@ jobs:
       - run: |
           git config --global user.email "worknarair6@gmail.com"
           git config --global user.name "Ryoneme2"
-      - run : sudo apt install nodejs
       - run : sudo apt install npm
       - run: |
           npm run build
