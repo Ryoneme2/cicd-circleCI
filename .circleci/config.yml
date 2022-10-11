@@ -1,24 +1,19 @@
 version: 2.1
+orbs:
+  nodes : circleci/node@5.0.3
+
 jobs:
-  say_hello:
-    docker:
-      - image: cimg/base:2022.05
-        auth:
-          username : ryoneme2
-          password : $DOCKERHUB_PASSWORD
+  install-and-test:
+    executor : 
+      name : node/default
+      tag : '16.17'
     steps:
-      - run : echo "Say hello to YAML!"
-  say_goodbye :
-    docker:
-      - image: cimg/base:2022.05 
-        auth:
-          username : ryoneme2
-          password : $DOCKERHUB_PASSWORD
-    steps:
-      - run : echo "Say goodbye to YAML!"
+      - checkout
+      - node/install-packages:
+          pkg-manager : yarn
+      - run : 'yarn test'
 
 workflows:
-  hello and goodbye :
+  test-my-app:
     jobs:
-      - say_hello
-      - say_goodbye
+      - install-and-test
