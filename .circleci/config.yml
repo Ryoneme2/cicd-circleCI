@@ -1,7 +1,7 @@
 version: 2.1
 orbs:
   node : circleci/node@5.0.3
-  github-pages-orb: fernfernfern/github-pages-orb@0.0.10
+  gh-pages: sugarshin/gh-pages@1.0.1
 
 jobs:
   install-n-test:
