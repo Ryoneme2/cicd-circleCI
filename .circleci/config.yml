@@ -1,7 +1,7 @@
 version: 2.1
 orbs:
   node : circleci/node@5.0.3
-  gh-pages: sugarshin/gh-pages@1.0.1
+  github-pages-orb: fernfernfern/github-pages-orb@0.0.10
 
 jobs:
   install-n-test:
@@ -12,17 +12,8 @@ jobs:
       - checkout
       - node/install-packages
       - run : 'npm run test'
-  build_deploy:
-    executor: gh-pages/default
-    steps:
-      - checkout
-      - run: ./build.sh
-      - gh-pages/deploy:
-          setup-git: true
-          ssh-fingerprints: $fingerprint
-
 workflows:
   test-my-app:
     jobs:
       - install-n-test
-      - build_deploy
+      - github-pages-orb
