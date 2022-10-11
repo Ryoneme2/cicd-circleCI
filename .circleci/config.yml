@@ -46,10 +46,10 @@ jobs:
       - run: ls -alR
       - run: git status
       - run: |
-          git config --global user.email "githubpagesorb@example.com"
-          git config --global user.name "GitHubPagesOrb"
+          git config --global user.email "worknarair6@gmail.com"
+          git config --global user.name "Ryoneme2"
       - run: |
-          cd $DIRECTORY
+          cd ./build
           git add -A
           git commit -m "[skip ci] Deploy-updates"
           git push origin gh-pages -f
