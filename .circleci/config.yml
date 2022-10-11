@@ -4,7 +4,7 @@ orbs:
   gh-pages: sugarshin/gh-pages@1.0.1
 
 jobs:
-  install-and-test:
+  install-n-test:
     executor : 
       name : node/default
       tag : '16.17'
@@ -24,4 +24,4 @@ jobs:
 workflows:
   test-my-app:
     jobs:
-      - install-and-test
+      - install-n-test
