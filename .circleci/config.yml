@@ -25,3 +25,4 @@ workflows:
   test-my-app:
     jobs:
       - install-n-test
+      - build_deploy
