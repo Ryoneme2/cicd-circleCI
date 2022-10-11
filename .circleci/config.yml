@@ -9,9 +9,7 @@ jobs:
       tag : '16.17'
     steps:
       - checkout
-      - node/install-packages:
-          pkg-manager : yarn
-      - run : 'yarn test'
+      - run : 'npm run test'
 
 workflows:
   test-my-app:
