@@ -5,7 +5,6 @@ orbs:
 
 jobs:
   install-n-test:
-    
     executor : 
       name : node/default
       tag : '16.17'
@@ -14,81 +13,17 @@ jobs:
       - node/install-packages
       - run : 'npm run test'
   gh-page : 
-    machine:
-      image: ubuntu-2204:2022.07.1
-    environment:
-      BRANCH: gh-pages
-      DIRECTORY: _site
+    build_deploy:
+    executor: gh-pages/default
     steps:
       - checkout
-      - run : sudo apt install npm
-      - run : npm install && npm run build
-      - run: |
-          echo $DIRECTORY
-          echo $BRANCH
-      - run: >-
-          git fetch origin $BRANCH || git checkout --orphan gh-pages && git reset
-          --hard && git config --global user.name "github-pages-orb" &&  git config
-          --global user.email "github-pages-orb@example.com" && git commit
-          --allow-empty -m "Init" && git checkout main
-      - run: rm -rf $DIRECTORY
-      - run: ls -alR
-      - run: git worktree add $DIRECTORY $BRANCH
-      - run: ls -alR
-      - run: git status
-      - run: |
-          git config --global user.email "worknarair6@gmail.com"
-          git config --global user.name "Ryoneme2"
-      - run: |
-          cd ./build
-          git add -A
-          git commit -m "[skip ci] Deploy-updates"
-          git push origin gh-pages -f
-    # description: >
-    #   This job takes the built and tested source code from the test job and pushes
-    #   it back up to the gh-pages branch for live deployment
-    # environment:
-    #   BRANCH: gh-pages
-    #   DIRECTORY: _site
-    # executor: github-pages-orb/default
-    # parameters:
-    #   fingerprint:
-    #     default: ''
-    #     description: ssh key fingerprint from CircleCI to push site back to repo
-    #     type: string
-    # steps:
-    #   - checkout
-    #   - add_ssh_keys:
-    #       fingerprints:
-    #         - << parameters.fingerprint >>
-    #   - run: |
-    #       echo $DIRECTORY
-    #       echo $BRANCH
-    #   - run: >-
-    #       git fetch origin $BRANCH || git checkout --orphan gh-pages && git reset
-    #       --hard && git config --global user.name "github-pages-orb" &&  git config
-    #       --global user.email "github-pages-orb@example.com" && git commit
-    #       --allow-empty -m "Init" && git checkout main
-    #   - run: rm -rf $DIRECTORY
-    #   - run: ls -alR
-    #   - run: git worktree add $DIRECTORY $BRANCH
-    #   - attach_workspace:
-    #       at: ~/project
-    #   - run: ls -alR
-    #   - run: git status
-    #   - run: |
-    #       git config --global user.email "worknarair6@gmail.com"
-    #       git config --global user.name "Ryoneme2"
-    #   - run : sudo apt install npm
-    #   - run: |
-    #       npm run build
-    #       cd ./build
-    #       git add -A
-    #       git commit -m "[skip ci] Deploy-updates"
-    #       git push origin gh-pages -f
+      - run: ./build.sh
+      - gh-pages/deploy:
+          setup-git: true
+          ssh-fingerprints: <fingerprint>
 
 workflows:
   test-my-app:
     jobs:
       - install-n-test
-      - gh-page
+      - gh-page 
