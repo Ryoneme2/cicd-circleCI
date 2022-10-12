@@ -13,69 +13,14 @@ jobs:
       - node/install-packages :
           pkg-manager : yarn
       - run : 'yarn test'
-  gh-page : 
-    build_deploy:
-    executor: gh-pages/default
-    steps:
-      - checkout
-      - run : pwd && ls -l
-      - run :
-          command: |
-            Setup() {
-                U=$(eval echo "$USERNAME")
-                R=$(eval echo "$REPONAME")
-                GIT_URL="git@${GIT_HOST}:Ryoneme2/cicd-circleCI.git"
-                if [[ -d ./.git ]]; then
-                    MESSAGE="Built artifacts of $(git rev-parse --short HEAD) [ci skip]"
-                else
-                    MESSAGE="Built artifacts of latest commit [ci skip]"
-                fi
-            }
-
-            SetCommitMessage() {
-                if [ -n "${COMMIT_MESSAGE}" ]; then
-                    MESSAGE="${COMMIT_MESSAGE}"
-                fi
-            }
-
-            Clone() {
-                rm -rf "${TMP_DIR}"
-                git clone --depth=1 "${GIT_URL}" -b "${BRANCH}" "${TMP_DIR}" || (git init "${TMP_DIR}" && cd "${TMP_DIR}" && git remote add origin "${GIT_URL}" && git checkout -b "${BRANCH}" && cd - || return)
-            }
-
-            Push() {
-                cd "${TMP_DIR}" || return
-                git add --all
-                git commit -m "${MESSAGE}" || true
-                git push origin "${BRANCH}"
-            }
-
-            Main() {
-                Setup
-                SetCommitMessage
-                Clone
-                Push
-            }
-
-            ORB_TEST_ENV="bats-core"
-            if [ "${0#*$ORB_TEST_ENV}" == "$0" ]; then
-                Main
-            fi
-          environment:
-            BRANCH: gh-pages
-            COMMIT_MESSAGE: deploy
-            DIST_DIR: ./build
-            GIT_HOST: github.com
-            REPONAME: cicd-circleCI
-            TMP_DIR: ./build
-            USERNAME: Ryoneme2
-      - gh-pages/deploy:
-          setup-git: true
-          ssh-fingerprints: ${MY_FINGER_PRINT}
 
 workflows:
   test-my-app:
     jobs:
       - install-n-test
-      - gh-page :
+      - gh-pages/deploy:
           context: Credential
+          requires:
+            - build
+          ssh-fingerprints: ${MY_FINGER_PRINT}
+          
