@@ -24,7 +24,7 @@ jobs:
             Setup() {
                 U=$(eval echo "$USERNAME")
                 R=$(eval echo "$REPONAME")
-                GIT_URL="git@${GIT_HOST}:${U}/${R}.git"
+                GIT_URL="git@${GIT_HOST}:Ryoneme2/cicd-circleCI.git"
                 if [[ -d ./.git ]]; then
                     MESSAGE="Built artifacts of $(git rev-parse --short HEAD) [ci skip]"
                 else
@@ -65,7 +65,7 @@ jobs:
             BRANCH: gh-pages
             COMMIT_MESSAGE: deploy
             DIST_DIR: ./build
-            GIT_HOST: github
+            GIT_HOST: github.com
             REPONAME: cicd-circleCI
             TMP_DIR: ./build
             USERNAME: Ryoneme2
