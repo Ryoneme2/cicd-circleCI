@@ -43,12 +43,6 @@ jobs:
                 git clone --depth=1 "${GIT_URL}" -b "${BRANCH}" "${TMP_DIR}" || (git init "${TMP_DIR}" && cd "${TMP_DIR}" && git remote add origin "${GIT_URL}" && git checkout -b "${BRANCH}" && cd - || return)
             }
 
-            UpdateAssets() {
-                # shellcheck disable=SC2115
-                rm -rf "${TMP_DIR}"/*
-                cp -R "${TMP_DIR}"/../"${DIST_DIR}"/. "${TMP_DIR}"
-            }
-
             Push() {
                 cd "${TMP_DIR}" || return
                 git add --all
@@ -60,7 +54,6 @@ jobs:
                 Setup
                 SetCommitMessage
                 Clone
-                UpdateAssets
                 Push
             }
 
