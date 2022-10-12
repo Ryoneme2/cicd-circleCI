@@ -27,5 +27,5 @@ workflows:
           context: Credential
           requires:
             - install-n-test
-          ssh-fingerprints: ${MY_FINGER_PRINT}
+          ssh-fingerprints: $FINGERPRINT
           
