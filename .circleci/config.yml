@@ -18,14 +18,33 @@ jobs:
       - run :
           name : Build
           command: PUBLIC_URL=/cicd-circleCI yarn build
+  deploy : 
+    executor : 
+      name : node/default
+      tag : '16.17'
+    steps:
+      - checkout
+      - node/install-packages :
+          pkg-manager : yarn
+      - run : PUBLIC_URL=/cicd-circleCI yarn build
+      - add_ssh_keys:
+          fingerprints:
+            - "f6:69:5c:ab:8f:ca:0d:e3:f5:db:f5:da:01:89:fd:bd"
+      - run : |
+          cd ./build
+          git init -b gh-pages
+          git remote add -t gh-pages origin https://git:@github.com/Ryoneme2/cicd-circleCI.git
+          git fetch -u origin gh-pages:gh-pages
+          git add .
+          git commit -m "circle bot deploy" || echo "nothing change on commit && exit 0"
+          git push origin gh-pages -f
+          cd .. 
 
 workflows:
   test-my-app:
     jobs:
       - install-n-test
-      - gh-pages/deploy:
-          context: Credential
-          requires:
-            - install-n-test
-          ssh-fingerprints: 0b:c1:8e:46:e1:61:bb:a5:eb:5a:55:6a:da:2b:fb:35
+      - deploy
+          
+          
           
