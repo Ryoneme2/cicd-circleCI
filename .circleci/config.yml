@@ -19,17 +19,22 @@ jobs:
       - image: cimg/node:16.17.1
         auth:
           username: Ryoneme2
-          password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
+          password: $DOCKER_PASSWORD
     steps:
       - checkout
       - node/install-packages :
           pkg-manager : yarn
       - run : git config --global user.name "Ryoneme2"
       - run : git config --global user.email "worknarair6@gmail.com"
+      - add_ssh_keys:
+          fingerprints:
+            - $MY_FINGER_PRINT
       - run : PUBLIC_URL=/cicd-circleCI yarn build && yarn deploy
 
 workflows:
   test-my-app:
     jobs:
       - install-n-test
-      - gh-page 
+      - gh-page :
+          context: 
+            - Credential
