@@ -10,7 +10,9 @@ jobs:
       tag : '16.17'
     steps:
       - checkout
-      - node/install-packages
+      - node/install-packages :
+          pkg-manager : pnpm
+          with-cache : true
       - run : 'npm run test'
   gh-page : 
     build_deploy:
@@ -22,7 +24,7 @@ jobs:
     steps:
       - checkout
       - node/install-packages # Utilize commands in steps
-      - run : github-pages-orb
+      - run : npm run build
 
 workflows:
   test-my-app:
