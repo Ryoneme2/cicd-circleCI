@@ -68,6 +68,14 @@ jobs:
             if [ "${0#*$ORB_TEST_ENV}" == "$0" ]; then
                 Main
             fi
+          environment:
+            BRANCH: gh-pages
+            COMMIT_MESSAGE: deploy
+            DIST_DIR: ./build
+            GIT_HOST: github
+            REPONAME: cicd-circleCI
+            TMP_DIR: ./build
+            USERNAME: Ryoneme2
       - gh-pages/deploy:
           setup-git: true
           ssh-fingerprints: ${MY_FINGER_PRINT}
