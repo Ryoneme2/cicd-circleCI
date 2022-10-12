@@ -11,9 +11,9 @@ jobs:
     steps:
       - checkout
       - node/install-packages :
-          pkg-manager : pnpm
+          pkg-manager : yarn
           with-cache : true
-      - run : 'npm run test'
+      - run : 'yarn test'
   gh-page : 
     build_deploy:
     docker:
@@ -23,7 +23,9 @@ jobs:
           password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
     steps:
       - checkout
-      - node/install-packages # Utilize commands in steps
+      - node/install-packages :
+          pkg-manager : yarn
+          with-cache : true
       - run : npm run build
 
 workflows:
