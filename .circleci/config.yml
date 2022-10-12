@@ -12,7 +12,6 @@ jobs:
       - checkout
       - node/install-packages :
           pkg-manager : yarn
-          with-cache : true
       - run : 'yarn test'
   gh-page : 
     build_deploy:
@@ -25,8 +24,7 @@ jobs:
       - checkout
       - node/install-packages :
           pkg-manager : yarn
-          with-cache : true
-      - run : npm run build
+      - run : yarn build && yarn deploy
 
 workflows:
   test-my-app:
