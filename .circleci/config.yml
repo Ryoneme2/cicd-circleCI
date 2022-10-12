@@ -19,7 +19,7 @@ jobs:
     steps:
       - checkout
       - run : pwd && ls -l
-      - run: ./build.sh
+      - run : sudo ./build.sh
       - gh-pages/deploy:
           setup-git: true
           ssh-fingerprints: ${MY_FINGER_PRINT}
