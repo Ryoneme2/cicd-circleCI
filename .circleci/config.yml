@@ -26,7 +26,7 @@ jobs:
           pkg-manager : yarn
       - run : git config --global user.name "Ryoneme2"
       - run : git config --global user.email "worknarair6@gmail.com"
-      - run : PUBLIC_URL=/${{ github.event.repository.name }} yarn build && yarn deploy
+      - run : PUBLIC_URL=/cicd-circleCI yarn build && yarn deploy
 
 workflows:
   test-my-app:
