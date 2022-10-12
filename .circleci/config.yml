@@ -12,7 +12,12 @@ jobs:
       - checkout
       - node/install-packages :
           pkg-manager : yarn
-      - run : 'yarn test'
+      - run :
+          name : Testing
+          command: yarn test
+      - run :
+          name : Build
+          command: PUBLIC_URL=/cicd-circleCI yarn build
 
 workflows:
   test-my-app:
@@ -21,6 +26,6 @@ workflows:
       - gh-pages/deploy:
           context: Credential
           requires:
-            - build
+            - install-n-test
           ssh-fingerprints: ${MY_FINGER_PRINT}
           
