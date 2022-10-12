@@ -12,20 +12,9 @@ jobs:
       - checkout
       - node/install-packages
       - run : 'npm run test'
-  gh-page : 
-    build_deploy:
-    docker:
-      - image: cimg/node:16
-        auth:
-          username: Ryoneme2
-          password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
-    steps:
-      - checkout
-      - node/install-packages # Utilize commands in steps
-      - github-pages-orb
 
 workflows:
   test-my-app:
     jobs:
       - install-n-test
-      - gh-page 
+      - github-pages-orb 
