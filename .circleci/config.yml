@@ -49,4 +49,4 @@ workflows:
     jobs:
       - test-and-deploy:
           context:
-            - credential
+            - Credential
