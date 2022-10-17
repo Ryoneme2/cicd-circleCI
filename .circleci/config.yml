@@ -42,7 +42,7 @@ jobs:
             git remote set-url origin https://git:${gh_token}@github.com${REPO_PATH}.git
       - run:
           name: Deploy to gh-pages
-          command: PUBLIC_URL=/Ryoneme2/cicd-circleCI yarn run deploy
+          command: PUBLIC_URL=/cicd-circleCI yarn run deploy
 
 workflows:
   test_and_deploy_my_app:
