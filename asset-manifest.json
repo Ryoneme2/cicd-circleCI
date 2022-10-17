@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/Ryoneme2/cicd-circleCI/static/css/main.073c9b0a.css",
-    "main.js": "/Ryoneme2/cicd-circleCI/static/js/main.eb401387.js",
-    "static/js/787.806d4d10.chunk.js": "/Ryoneme2/cicd-circleCI/static/js/787.806d4d10.chunk.js",
-    "static/media/logo.svg": "/Ryoneme2/cicd-circleCI/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
-    "index.html": "/Ryoneme2/cicd-circleCI/index.html",
-    "main.073c9b0a.css.map": "/Ryoneme2/cicd-circleCI/static/css/main.073c9b0a.css.map",
-    "main.eb401387.js.map": "/Ryoneme2/cicd-circleCI/static/js/main.eb401387.js.map",
-    "787.806d4d10.chunk.js.map": "/Ryoneme2/cicd-circleCI/static/js/787.806d4d10.chunk.js.map"
+    "main.css": "/cicd-circleCI/static/css/main.073c9b0a.css",
+    "main.js": "/cicd-circleCI/static/js/main.3a42f935.js",
+    "static/js/787.806d4d10.chunk.js": "/cicd-circleCI/static/js/787.806d4d10.chunk.js",
+    "static/media/logo.svg": "/cicd-circleCI/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
+    "index.html": "/cicd-circleCI/index.html",
+    "main.073c9b0a.css.map": "/cicd-circleCI/static/css/main.073c9b0a.css.map",
+    "main.3a42f935.js.map": "/cicd-circleCI/static/js/main.3a42f935.js.map",
+    "787.806d4d10.chunk.js.map": "/cicd-circleCI/static/js/787.806d4d10.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.073c9b0a.css",
-    "static/js/main.eb401387.js"
+    "static/js/main.3a42f935.js"
   ]
 }
