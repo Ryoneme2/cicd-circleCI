@@ -1,50 +1,52 @@
 version: 2.1
+
 orbs:
-  node : circleci/node@5.0.3
-  gh-pages: sugarshin/gh-pages@1.0.1
+  node: circleci/node@5.0.3
 
 jobs:
-  install-n-test:
-    executor : 
-      name : node/default
-      tag : '16.17'
+  test-and-deploy:
+    executor:
+      name: node/default
+      tag: '16.17'
+    environment:
+      - REPO_URL: << pipeline.project.git_url >>
     steps:
       - checkout
-      - node/install-packages :
-          pkg-manager : yarn
-      - run :
-          name : Testing
-          command: yarn test
-      - run :
-          name : Build
-          command: PUBLIC_URL=/cicd-circleCI yarn build
-  deploy : 
-    executor : 
-      name : node/default
-      tag : '16.17'
-    steps:
-      - checkout
-      - node/install-packages :
-          pkg-manager : yarn
-      - run : PUBLIC_URL=/cicd-circleCI yarn build
-      - add_ssh_keys:
-          fingerprints:
-            - "f6:69:5c:ab:8f:ca:0d:e3:f5:db:f5:da:01:89:fd:bd"
-      - run : |
-          cd ./build
-          git init -b gh-pages
-          git remote add -t gh-pages origin https://git:@github.com/Ryoneme2/cicd-circleCI.git
-          git fetch -u origin gh-pages:gh-pages
-          git add .
-          git commit -m "circle bot deploy" || echo "nothing change on commit && exit 0"
-          git push origin gh-pages -f
-          cd .. 
+      - run:
+          name: Setup evironment variables
+          command: |
+              echo "export REPO_PATH=${REPO_URL#https://github.com}" >> "$BASH_ENV"
+      - node/install-packages:
+          pkg-manager: yarn
+      - run:
+          name: Test << pipeline.git.branch >>
+          command: yarn run test
+      - run:
+          name: Build << pipeline.git.branch >>
+          command: PUBLIC_URL=/${CIRCLE_PROJECT_REPONAME} yarn run build
+      - run:
+          name: Setup git user
+          command: |
+            git config --global user.email "mrpachara@gmail.com"
+            git config --global user.name "Pachara Tinamas"
+      - run:
+          name: Environment variables
+          command: |
+              echo ${CIRCLE_PROJECT_REPONAME}
+              echo ${CIRCLE_REPOSITORY_URL}
+              echo ${REPO_URL}
+              echo ${REPO_PATH}
+      - run:
+          name: Setup Github token
+          command: |
+            git remote set-url origin https://git:${GITHUB_TOKEN}@github.com${REPO_PATH}.git
+      - run:
+          name: Deploy to gh-pages
+          command: yarn run deploy
 
 workflows:
-  test-my-app:
+  test_and_deploy_my_app:
     jobs:
-      - install-n-test
-      - deploy
-          
-          
-          
+      - test-and-deploy:
+          context:
+            - github-context
